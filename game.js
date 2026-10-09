@@ -8,20 +8,20 @@ const toastEl = document.querySelector('#toast');
 const LAST_SPACE = 51;
 const giftSpaces = [3, 7, 11, 15, 19, 23, 27, 31, 35, 39, 43, 46, 49, 51];
 const gifts = [
-  { sprite: 0, title: 'A little something warm', copy: 'A pair of warm socks, just for you.' },
-  { sprite: 1, title: 'One drink date, on me', copy: 'Choose bubble tea, a smoothie, or whatever tastes like a good afternoon.' },
-  { sprite: 2, title: 'A little something for you', copy: 'You wanted this once, but never got it.' },
+  { sprite: 1, title: 'A little something warm', copy: 'A pair of warm socks, just for you.' },
+  { sprite: 2, title: 'One drink date, on me', copy: 'Choose bubble tea, a smoothie, or whatever tastes like a good afternoon.' },
+  { asset: 'assets/gift-eyeliner.png', title: 'A little something for you', copy: 'You wanted this once, but never got it.' },
   { sprite: 3, title: 'An ice cream break', copy: 'One chocolate scoop, two spoons, and a sweet little break.' },
-  { sprite: 4, title: 'Something green for your next drink', copy: 'For the days when you want something other than coffee.' },
-  { sprite: 5, title: 'To the moon and back', copy: 'A little moon scene with two explorers and one very important heart.' },
-  { sprite: 6, title: 'A tiny mystery friend', copy: 'Small, black, collectible, and slightly magical. I am definitely not telling you what it is yet.' },
-  { sprite: 7, title: 'A softer place to sleep', copy: 'Something comfortable to help you rest a little better, especially when your nose bothers you.' },
-  { sprite: 8, title: 'A sealed date in East Williamsburg', copy: 'Back to Montrose Ave, back to the first winter we had together. Only available from November 1.' },
-  { sprite: 9, title: 'One hundred tiny proofs', copy: 'A book of ordinary seconds that made loving you feel extraordinary.' },
-  { sprite: 10, title: 'Something black for both of us', copy: 'One black pair for you and one for me. The two word brand name stays secret for now.' },
-  { sprite: 11, title: 'Press play on a little secret', copy: 'A tiny player holding three minutes that belong only to us.' },
-  { sprite: 12, title: 'Words meant only for you', copy: 'No screen, no hints. Just a card you can keep.' },
-  { sprite: 13, title: 'The big bow', copy: 'This clue is locked. Finish our road to discover what happens next.' }
+  { asset: 'assets/gift-matcha.png', title: 'Something green for your next drink', copy: 'For the days when you want something other than coffee.' },
+  { sprite: 4, title: 'To the moon and back', copy: 'A little moon scene with two explorers and one very important heart.' },
+  { sprite: 7, title: 'A tiny mystery friend', copy: 'Small, black, collectible, and slightly magical. I am definitely not telling you what it is yet.' },
+  { asset: 'assets/gift-pillow.png', title: 'A softer place to sleep', copy: 'Something comfortable to help you rest a little better, especially when your nose bothers you.' },
+  { sprite: 5, title: 'A sealed date in East Williamsburg', copy: 'Back to Montrose Ave, back to the first winter we had together. Only available from November 1.' },
+  { sprite: 6, title: 'One hundred tiny proofs', copy: 'A book of ordinary seconds that made loving you feel extraordinary.' },
+  { asset: 'assets/gift-matching-jeans.png', title: 'Something black for both of us', copy: 'One black pair for you and one for me. The two word brand name stays secret for now.' },
+  { sprite: 0, title: 'Press play on a little secret', copy: 'A tiny player holding three minutes that belong only to us.' },
+  { sprite: 8, title: 'Words meant only for you', copy: 'No screen, no hints. Just a card you can keep.' },
+  { sprite: 9, title: 'The big bow', copy: 'This clue is locked. Finish our road to discover what happens next.' }
 ];
 
 const special = {
@@ -152,9 +152,21 @@ function makeClueDrawer() {
 }
 
 function spritePosition(index) {
-  const col = index % 7;
-  const row = Math.floor(index / 7);
-  return `${col * (100 / 6)}% ${row * 100}%`;
+  const col = index % 5;
+  const row = Math.floor(index / 5);
+  return `${col * 25}% ${row * 100}%`;
+}
+
+function applyGiftArt(element, gift) {
+  if (gift.asset) {
+    element.style.backgroundImage = `url("${gift.asset}")`;
+    element.style.backgroundSize = 'cover';
+    element.style.backgroundPosition = 'center';
+    return;
+  }
+  element.style.backgroundImage = 'url("assets/gift-clues.png")';
+  element.style.backgroundSize = '500% 200%';
+  element.style.backgroundPosition = spritePosition(gift.sprite);
 }
 
 function initAudio() {
@@ -182,8 +194,8 @@ function getCrystalBus() {
   const delay = audioCtx.createDelay(.8);
   const feedback = audioCtx.createGain();
   const echo = audioCtx.createGain();
-  filter.type = 'lowpass'; filter.frequency.value = 1650; filter.Q.value = .25;
-  dry.gain.value = .38; delay.delayTime.value = .31; feedback.gain.value = .12; echo.gain.value = .11;
+  filter.type = 'lowpass'; filter.frequency.value = 1450; filter.Q.value = .2;
+  dry.gain.value = .34; delay.delayTime.value = .27; feedback.gain.value = .09; echo.gain.value = .08;
   input.connect(filter); filter.connect(dry).connect(audioCtx.destination);
   filter.connect(delay); delay.connect(feedback).connect(delay); delay.connect(echo).connect(audioCtx.destination);
   crystalBus = input;
@@ -194,18 +206,18 @@ function diceSound() { [210,170,250,190,290].forEach((f,i) => tone(f, i*.055, .0
 function stepSound(i) { tone(320 + (i % 5) * 45, 0, .08, 'sine', .028); }
 function sparkleSound() { [523,659,784].forEach((f,i) => tone(f, i*.09, .35, 'sine', .05)); }
 
-function musicBoxNote(freq, start, duration=1.35, volume=.007) {
+function musicBoxNote(freq, start, duration=1.05, volume=.0062) {
   if (!state.sound || !freq) return;
   initAudio();
   const when = audioCtx.currentTime + start;
   const bus = getCrystalBus();
-  [[1, volume], [2, volume * .055]].forEach(([ratio, level], index) => {
+  [[1, volume], [2, volume * .038], [.5, volume * .12]].forEach(([ratio, level], index) => {
     const osc = audioCtx.createOscillator();
     const gain = audioCtx.createGain();
-    osc.type = index === 0 ? 'sine' : 'triangle';
+    osc.type = index === 1 ? 'triangle' : 'sine';
     osc.frequency.value = freq * ratio;
     gain.gain.setValueAtTime(.0001, when);
-    gain.gain.exponentialRampToValueAtTime(level, when + .035 + index * .01);
+    gain.gain.exponentialRampToValueAtTime(level, when + .018 + index * .008);
     gain.gain.exponentialRampToValueAtTime(.0001, when + duration);
     osc.connect(gain).connect(bus); osc.start(when); osc.stop(when + duration + .05);
   });
@@ -213,26 +225,26 @@ function musicBoxNote(freq, start, duration=1.35, volume=.007) {
 
 function musicTick() {
   const bars = [
-    { melody: [440,493.9,587.3,493.9,440,null,370,440], bass: [146.8,220] },
-    { melody: [370,440,493.9,587.3,493.9,440,370,null], bass: [164.8,246.9] },
-    { melody: [440,587.3,659.3,587.3,493.9,null,440,370], bass: [185,277.2] },
-    { melody: [329.6,370,440,493.9,440,370,329.6,null], bass: [146.8,220] },
-    { melody: [370,440,587.3,null,493.9,440,370,329.6], bass: [164.8,246.9] },
-    { melody: [440,493.9,440,370,329.6,370,440,null], bass: [146.8,220] }
+    { melody: [293.7,392,440,493.9,440,392,329.6,null], bass: [146.8,220] },
+    { melody: [392,440,493.9,587.3,493.9,440,392,null], bass: [196,246.9] },
+    { melody: [329.6,392,440,null,493.9,440,392,329.6], bass: [164.8,220] },
+    { melody: [293.7,329.6,392,440,392,329.6,293.7,null], bass: [146.8,196] },
+    { melody: [392,440,587.3,493.9,440,null,392,329.6], bass: [196,246.9] },
+    { melody: [293.7,392,440,493.9,440,392,329.6,293.7], bass: [146.8,220] }
   ];
   let bar = 0;
   clearInterval(state.musicTimer);
   const playBar = () => {
     if (!state.sound) return;
     const phrase = bars[bar % bars.length];
-    phrase.melody.forEach((note, i) => musicBoxNote(note, i * .42, 1.25, i === 0 ? .008 : .006));
-    phrase.bass.forEach((note, i) => musicBoxNote(note, i * 1.68, 2.3, .0028));
+    phrase.melody.forEach((note, i) => musicBoxNote(note, i * .32, 1.02, i === 0 ? .007 : .0054));
+    phrase.bass.forEach((note, i) => musicBoxNote(note, i * 1.28, 1.9, .0023));
     bar++;
   };
   playBar();
   state.musicTimer = setInterval(() => {
     playBar();
-  }, 3360);
+  }, 2560);
 }
 
 function setDice(value) { diceEl.dataset.value = value; diceEl.setAttribute('aria-label', `Dice showing ${value}`); }
@@ -328,7 +340,7 @@ async function collectGift(index) {
   state.found.add(index);
   const drawerItem = document.querySelectorAll('.mini-clue')[index];
   drawerItem.classList.add('found'); drawerItem.disabled = false;
-  drawerItem.style.backgroundPosition = spritePosition(gifts[index].sprite);
+  applyGiftArt(drawerItem, gifts[index]);
   drawerItem.setAttribute('aria-label', `Open clue ${index + 1}: ${gifts[index].title}`);
   renderPawn(); sparkleSound();
   state.pendingCards.push({ type: 'gift', index });
@@ -339,7 +351,7 @@ async function showGiftCard(index) {
   document.querySelector('#giftNumber').textContent = String(index + 1).padStart(2,'0');
   document.querySelector('#giftTitle').textContent = gifts[index].title;
   document.querySelector('#giftCopy').textContent = gifts[index].copy;
-  document.querySelector('#giftSprite').style.backgroundPosition = spritePosition(gifts[index].sprite);
+  applyGiftArt(document.querySelector('#giftSprite'), gifts[index]);
   const dialog = document.querySelector('#giftDialog'); dialog.showModal();
   await waitDialog(dialog, '#giftKeep', '#giftClose');
 }
@@ -563,7 +575,8 @@ function showChoice(kind) {
     memorymenu: { title: 'Memory menu', copy: 'Choose one kind of memory and tell the first story that comes to mind.', icon: '◌', options: [
       { label: 'A food memory', hearts: 4 },
       { label: 'A travel memory', hearts: 4 },
-      { label: 'A quiet home memory', hearts: 5 }
+      { label: 'A quiet home memory', hearts: 5 },
+      { label: 'One of our “arguments”', hearts: 5 }
     ]},
     secretcode: { title: 'Make a secret code', copy: 'Choose a normal word that will secretly mean I love you for the rest of tonight.', icon: '✦', options: [
       { label: 'We picked one', hearts: 5 },

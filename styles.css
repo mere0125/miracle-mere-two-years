@@ -143,7 +143,7 @@ button:focus-visible { outline: 4px solid rgba(42,167,160,.35); outline-offset: 
 .mini-clues { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; }
 .mini-clue { aspect-ratio: 4 / 5; padding: 0; border: 1.5px solid var(--ink); border-radius: 7px 5px 8px 6px; background: #eadfd3; display: grid; place-items: center; color: #a28d84; font: 900 .7rem ui-rounded, system-ui; overflow: hidden; }
 .mini-clue:disabled { cursor: default; opacity: .68; }
-.mini-clue.found { background-color: white; background-image: url("assets/gift-clues.svg"); background-size: 700% 200%; color: transparent; }
+.mini-clue.found { background-color: white; background-repeat: no-repeat; color: transparent; }
 .mini-clue.found:not(:disabled) { cursor: pointer; transition: transform .15s ease, box-shadow .15s ease; }
 .mini-clue.found:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 3px 0 rgba(48,43,43,.18); }
 .clue-card > p { margin: 9px 0 0; font-size: .7rem; color: #8a6258; }
@@ -159,7 +159,7 @@ button:focus-visible { outline: 4px solid rgba(42,167,160,.35); outline-offset: 
 .choice-row button { border: 2px solid var(--ink); border-radius: 10px 8px 11px 7px; padding: 10px; background: #fff0c7; cursor: pointer; }
 .choice-row button:hover { background: #ffd968; }
 .gift-visual { width: min(210px, 62vw); aspect-ratio: 4 / 5; margin: 8px auto 15px; overflow: hidden; border: 2px solid var(--ink); border-radius: 17px 12px 19px 13px; background: #fff; }
-.gift-sprite { display: block; width: 100%; height: 100%; background-image: url("assets/gift-clues.svg"); background-size: 700% 200%; }
+.gift-sprite { display: block; width: 100%; height: 100%; background-repeat: no-repeat; }
 .rules-dialog { width: min(94vw, 860px); }
 .rules-dialog h2 { margin-bottom: 24px; }
 .rules-dialog ol { text-align: left; padding-left: 28px; line-height: 1.58; columns: 2; column-gap: 42px; }
