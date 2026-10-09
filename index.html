@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fff8e9">
+  <meta name="description" content="A tiny anniversary adventure made for Miracle & Mere.">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <title>Miracle & Mere | Two Years</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23ff6f61'/%3E%3Cpath d='M32 51S10 39 10 23c0-12 15-15 22-4 7-11 22-8 22 4 0 16-22 28-22 28Z' fill='%23fff8e9' stroke='%23342c2a' stroke-width='3'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="game-shell">
+    <header class="topbar">
+      <div class="brand" aria-label="Miracle and Mere, two years">
+        <span class="brand-kicker">09 · 30 · 2026</span>
+        <h1>miracle <i>&amp;</i> mere</h1>
+        <span class="brand-note">two years, one tiny adventure</span>
+      </div>
+      <div class="top-actions">
+        <button class="icon-button" id="rulesButton" type="button" aria-label="How to play">?</button>
+        <button class="sound-button" id="soundButton" type="button" aria-pressed="false">
+          <span class="sound-icon">♪</span><span id="soundLabel">music off</span>
+        </button>
+      </div>
+    </header>
+
+    <section class="play-layout">
+      <aside class="storybook-card status-card">
+        <div class="card-tab">ARE YOU READY?</div>
+        <p class="eyebrow">CHAPTER <span id="chapterNumber">1</span> OF 4</p>
+        <h2 id="chapterTitle">The little beginning</h2>
+        <p id="statusText">Roll the dice. Every turn has a tiny surprise.</p>
+
+        <div class="meter-wrap">
+          <div class="meter-label"><span>journey</span><strong id="progressText">0 / 51</strong></div>
+          <div class="meter"><span id="progressBar"></span></div>
+        </div>
+
+        <div class="stats">
+          <div><span class="stat-icon">♥</span><strong id="heartCount">0</strong><small>heart sparks</small></div>
+          <div><span class="stat-icon">✦</span><strong id="shieldCount">0</strong><small>moon shields</small></div>
+          <div><span class="stat-icon">⌁</span><strong id="giftCount">0</strong><small>clues found</small></div>
+        </div>
+
+        <div class="pet-paper selected-guide-card" id="selectedGuideCard">
+          <span class="guide-thumb guide-all" id="selectedGuidePortrait" aria-hidden="true"></span>
+          <div><small>YOUR GUIDE</small><strong id="selectedGuideTitle">Waiting to be chosen</strong><p id="guideNote">Pick one of the three little supervisors.</p></div>
+        </div>
+        <div class="pet-wall" aria-label="A framed drawing of our three pets">
+          <span class="frame-nail" aria-hidden="true">•</span>
+          <div class="pet-frame"><img src="assets/pet-guides.png" alt="Two curly dogs and a gray-and-white cat together"></div>
+          <p>our tiny committee</p>
+        </div>
+      </aside>
+
+      <section class="board-wrap" aria-label="Anniversary board game">
+        <div class="board-head">
+          <div>
+            <p class="eyebrow">OUR LITTLE BOARD GAME</p>
+            <h2>Road to September 30</h2>
+          </div>
+          <div class="legend" aria-label="Board legend">
+            <span><i class="dot gift-dot"></i> clue</span>
+            <span><i class="dot magic-dot"></i> magic</span>
+            <span><i class="dot cloud-dot"></i> detour</span>
+          </div>
+        </div>
+        <div class="board" id="board" role="grid" aria-label="52-space continuous Flying Chess path">
+          <div class="board-center" aria-hidden="true">
+            <span>09 · 30 · 2026</span>
+            <strong>miracle &amp; mere</strong>
+            <i>two years of us</i>
+            <svg class="center-snowflake" viewBox="0 0 64 64" aria-hidden="true">
+              <g class="snowflake-main">
+                <path d="M32 7.5c-.4 10.4.4 39.2 0 49M10.7 19.2c9 5.6 33.7 19.3 42.4 25.4M10.9 44.9C19.8 39.2 44 25.1 53.2 19"/>
+                <path d="M32 7.5l-5.4 7.4M32 7.5l5.2 7.1M32 56.5l-5.2-7.2M32 56.5l5.5-7.5M10.7 19.2l9.2.9M10.7 19.2l3.8 8.4M53.1 44.6l-9.1-.8M53.1 44.6l-3.8-8.2M10.9 44.9l3.6-8.4M10.9 44.9l9-.9M53.2 19l-3.7 8.4M53.2 19l-9.1.8"/>
+              </g>
+              <g class="snowflake-soft">
+                <path d="M32 22l-5 3v6l5 3.1 5-3.1v-6z"/>
+                <circle cx="32" cy="4.8" r="1.6"/><circle cx="7.9" cy="17.6" r="1.4"/><circle cx="55.8" cy="17.2" r="1.3"/><circle cx="8.2" cy="46.8" r="1.5"/><circle cx="55.6" cy="46.2" r="1.4"/><circle cx="32" cy="59.3" r="1.5"/>
+              </g>
+            </svg>
+          </div>
+        </div>
+        <div class="board-caption">
+          <span>FOLLOW THE PATH<br><b>one tiny turn at a time</b></span>
+          <span class="scribble">made with too much love</span>
+          <span>START HERE<br><b>our first page</b></span>
+        </div>
+      </section>
+
+      <aside class="control-column">
+        <section class="storybook-card turn-card">
+          <div class="tape"></div>
+          <p class="eyebrow">YOUR TURN</p>
+          <div class="dice" id="dice" aria-live="polite" aria-label="Dice showing one">
+            <span class="pip p1"></span><span class="pip p2"></span><span class="pip p3"></span>
+            <span class="pip p4"></span><span class="pip p5"></span><span class="pip p6"></span>
+            <span class="pip p7"></span><span class="pip p8"></span><span class="pip p9"></span>
+          </div>
+          <button class="roll-button" id="rollButton" type="button"><span>ROLL THE DICE</span><small>tap or press space</small></button>
+          <p class="turn-hint" id="turnHint">Three heart sparks can cancel a detour.</p>
+          <div class="turn-meta"><span>lucky streak <b id="streakCount">0 / 3</b></span><span>chapter stamps <b id="stampCount">0 / 3</b></span><span>guide <b id="guideName">choose</b></span></div>
+        </section>
+
+        <section class="storybook-card clue-card">
+          <div class="clue-title"><span>treasure drawer</span><strong id="drawerCount">0 / 14</strong></div>
+          <div class="mini-clues" id="miniClues" aria-label="Collected gift clues"></div>
+          <p>Tap any collected item to open its clue card again.</p>
+        </section>
+      </aside>
+    </section>
+  </main>
+
+  <dialog class="paper-dialog" id="eventDialog">
+    <div class="dialog-inner">
+      <button class="dialog-close" id="eventClose" type="button" aria-label="Close">×</button>
+      <span class="dialog-sticker" id="eventIcon">♥</span>
+      <p class="eyebrow" id="eventKicker">A LITTLE CARD</p>
+      <h2 id="eventTitle">Something happened</h2>
+      <p id="eventCopy"></p>
+      <div class="choice-row" id="eventChoices"></div>
+      <button class="dialog-primary" id="eventContinue" type="button">keep going</button>
+    </div>
+  </dialog>
+
+  <dialog class="paper-dialog gift-dialog" id="giftDialog">
+    <div class="dialog-inner">
+      <button class="dialog-close" id="giftClose" type="button" aria-label="Close">×</button>
+      <p class="eyebrow">TREASURE CLUE <span id="giftNumber">01</span></p>
+      <div class="gift-visual"><span class="gift-sprite" id="giftSprite"></span></div>
+      <h2 id="giftTitle">A little clue</h2>
+      <p id="giftCopy"></p>
+      <button class="dialog-primary" id="giftKeep" type="button">tuck it in the drawer</button>
+    </div>
+  </dialog>
+
+  <dialog class="paper-dialog rules-dialog" id="rulesDialog">
+    <div class="dialog-inner">
+      <button class="dialog-close" id="rulesClose" type="button" aria-label="Close">×</button>
+      <p class="eyebrow">HOW TO PLAY</p>
+      <h2>Not quite ordinary Flying Chess.</h2>
+      <ol>
+        <li>Roll the dice and follow the stitched path.</li>
+        <li>Cross a gift space to collect its clue, even if you do not land on it.</li>
+        <li>Magic spaces can boost you. Clouds may send you back.</li>
+        <li>Every turn adds a memory or activity card. You will finish every card before the final surprise.</li>
+        <li>Choices earn Heart Sparks. Spend 3 to cancel a detour.</li>
+        <li>Your pet guide gives you one special power.</li>
+        <li>You need an exact roll for the last space. Extra steps take you back along the path.</li>
+      </ol>
+      <div class="guide-picker" aria-label="Choose a pet guide">
+        <p>Choose your guide</p>
+        <button type="button" data-guide="happy"><span class="guide-thumb guide-happy" aria-hidden="true"></span><span><b>Happy Paw</b><small>detours are 1 space shorter</small></span></button>
+        <button type="button" data-guide="tie"><span class="guide-thumb guide-tie" aria-hidden="true"></span><span><b>Tie Buddy</b><small>chapter gates give 1 moon shield</small></span></button>
+        <button type="button" data-guide="cat"><span class="guide-thumb guide-cat" aria-hidden="true"></span><span><b>Boss Cat</b><small>choice cards give 1 extra spark</small></span></button>
+      </div>
+      <p class="rules-note">Collect every clue, then reach the big bow.</p>
+      <button class="dialog-primary" id="rulesStart" type="button" disabled>choose a guide</button>
+    </div>
+  </dialog>
+
+  <dialog class="paper-dialog finale-dialog" id="finaleDialog">
+    <div class="dialog-inner">
+      <span class="dialog-sticker">★</span>
+      <p class="eyebrow">YOU MADE IT</p>
+      <h2>Two years, and I still choose you.</h2>
+      <p>You found every clue. Now come find the real surprises with me.</p>
+      <div class="final-lock" id="finalLock">♡</div>
+      <button class="dialog-primary" id="openFinalButton" type="button">open the final bow</button>
+      <p class="signature">momoda, mere</p>
+    </div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div class="confetti" id="confetti" aria-hidden="true"></div>
+  <script src="game.js"></script>
+</body>
+</html>
