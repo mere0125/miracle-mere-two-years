@@ -194,8 +194,8 @@ function getCrystalBus() {
   const delay = audioCtx.createDelay(.8);
   const feedback = audioCtx.createGain();
   const echo = audioCtx.createGain();
-  filter.type = 'lowpass'; filter.frequency.value = 1450; filter.Q.value = .2;
-  dry.gain.value = .34; delay.delayTime.value = .27; feedback.gain.value = .09; echo.gain.value = .08;
+  filter.type = 'lowpass'; filter.frequency.value = 1800; filter.Q.value = .15;
+  dry.gain.value = .58; delay.delayTime.value = .24; feedback.gain.value = .075; echo.gain.value = .065;
   input.connect(filter); filter.connect(dry).connect(audioCtx.destination);
   filter.connect(delay); delay.connect(feedback).connect(delay); delay.connect(echo).connect(audioCtx.destination);
   crystalBus = input;
@@ -206,7 +206,7 @@ function diceSound() { [210,170,250,190,290].forEach((f,i) => tone(f, i*.055, .0
 function stepSound(i) { tone(320 + (i % 5) * 45, 0, .08, 'sine', .028); }
 function sparkleSound() { [523,659,784].forEach((f,i) => tone(f, i*.09, .35, 'sine', .05)); }
 
-function musicBoxNote(freq, start, duration=1.05, volume=.0062) {
+function musicBoxNote(freq, start, duration=1.02, volume=.0105) {
   if (!state.sound || !freq) return;
   initAudio();
   const when = audioCtx.currentTime + start;
@@ -225,26 +225,28 @@ function musicBoxNote(freq, start, duration=1.05, volume=.0062) {
 
 function musicTick() {
   const bars = [
-    { melody: [293.7,392,440,493.9,440,392,329.6,null], bass: [146.8,220] },
-    { melody: [392,440,493.9,587.3,493.9,440,392,null], bass: [196,246.9] },
-    { melody: [329.6,392,440,null,493.9,440,392,329.6], bass: [164.8,220] },
-    { melody: [293.7,329.6,392,440,392,329.6,293.7,null], bass: [146.8,196] },
-    { melody: [392,440,587.3,493.9,440,null,392,329.6], bass: [196,246.9] },
-    { melody: [293.7,392,440,493.9,440,392,329.6,293.7], bass: [146.8,220] }
+    { melody: [293.7,329.6,392,440,493.9,440,392,329.6], bass: [146.8,220] },
+    { melody: [440,493.9,587.3,493.9,440,392,329.6,null], bass: [220,246.9] },
+    { melody: [392,440,493.9,587.3,493.9,440,392,329.6], bass: [196,246.9] },
+    { melody: [329.6,392,440,493.9,440,392,329.6,293.7], bass: [164.8,220] },
+    { melody: [293.7,440,493.9,587.3,440,392,329.6,440], bass: [146.8,220] },
+    { melody: [392,493.9,587.3,659.3,587.3,493.9,440,392], bass: [196,246.9] },
+    { melody: [440,493.9,587.3,440,392,329.6,293.7,329.6], bass: [220,196] },
+    { melody: [293.7,329.6,392,440,392,329.6,293.7,null], bass: [146.8,220] }
   ];
   let bar = 0;
   clearInterval(state.musicTimer);
   const playBar = () => {
     if (!state.sound) return;
     const phrase = bars[bar % bars.length];
-    phrase.melody.forEach((note, i) => musicBoxNote(note, i * .32, 1.02, i === 0 ? .007 : .0054));
-    phrase.bass.forEach((note, i) => musicBoxNote(note, i * 1.28, 1.9, .0023));
+    phrase.melody.forEach((note, i) => musicBoxNote(note, i * .30, .98, i === 0 ? .0125 : .0105));
+    phrase.bass.forEach((note, i) => musicBoxNote(note, i * 1.20, 1.75, .0041));
     bar++;
   };
   playBar();
   state.musicTimer = setInterval(() => {
     playBar();
-  }, 2560);
+  }, 2400);
 }
 
 function setDice(value) { diceEl.dataset.value = value; diceEl.setAttribute('aria-label', `Dice showing ${value}`); }
@@ -576,7 +578,7 @@ function showChoice(kind) {
       { label: 'A food memory', hearts: 4 },
       { label: 'A travel memory', hearts: 4 },
       { label: 'A quiet home memory', hearts: 5 },
-      { label: 'One of our “arguments”', hearts: 5 }
+      { label: 'One of our “fights”', hearts: 5 }
     ]},
     secretcode: { title: 'Make a secret code', copy: 'Choose a normal word that will secretly mean I love you for the rest of tonight.', icon: '✦', options: [
       { label: 'We picked one', hearts: 5 },
