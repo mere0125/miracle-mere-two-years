@@ -10,15 +10,15 @@ const giftSpaces = [3, 7, 11, 15, 19, 23, 27, 31, 35, 39, 43, 46, 49, 51];
 const gifts = [
   { sprite: 1, title: 'A little something warm', copy: 'A pair of warm socks, just for you.' },
   { sprite: 2, title: 'One drink date, on me', copy: 'Choose bubble tea, a smoothie, or whatever tastes like a good afternoon.' },
-  { asset: 'assets/gift-eyeliner.png', title: 'A little something for you', copy: 'You wanted this once, but never got it.' },
+  { asset: 'assets/gift-eyeliner.png?v=20261009b', title: 'A little something for you', copy: 'You wanted this once, but never got it.' },
   { sprite: 3, title: 'An ice cream break', copy: 'One chocolate scoop, two spoons, and a sweet little break.' },
-  { asset: 'assets/gift-matcha.png', title: 'Something green for your next drink', copy: 'For the days when you want something other than coffee.' },
+  { asset: 'assets/gift-matcha.png?v=20261009b', title: 'Something green for your next drink', copy: 'For the days when you want something other than coffee.' },
   { sprite: 4, title: 'To the moon and back', copy: 'A little moon scene with two explorers and one very important heart.' },
   { sprite: 7, title: 'A tiny mystery friend', copy: 'Small, black, collectible, and slightly magical. I am definitely not telling you what it is yet.' },
-  { asset: 'assets/gift-pillow.png', title: 'A softer place to sleep', copy: 'Something comfortable to help you rest a little better, especially when your nose bothers you.' },
+  { asset: 'assets/gift-pillow.png?v=20261009b', title: 'A softer place to sleep', copy: 'Something comfortable to help you rest a little better, especially when your nose bothers you.' },
   { sprite: 5, title: 'A sealed date in East Williamsburg', copy: 'Back to Montrose Ave, back to the first winter we had together. Only available from November 1.' },
   { sprite: 6, title: 'One hundred tiny proofs', copy: 'A book of ordinary seconds that made loving you feel extraordinary.' },
-  { asset: 'assets/gift-matching-jeans.png', title: 'Something black for both of us', copy: 'One black pair for you and one for me. The two word brand name stays secret for now.' },
+  { asset: 'assets/gift-matching-jeans.png?v=20261009b', title: 'Something black for both of us', copy: 'One black pair for you and one for me. The two word brand name stays secret for now.' },
   { sprite: 0, title: 'Press play on a little secret', copy: 'A tiny player holding three minutes that belong only to us.' },
   { sprite: 8, title: 'Words meant only for you', copy: 'No screen, no hints. Just a card you can keep.' },
   { sprite: 9, title: 'The big bow', copy: 'This clue is locked. Finish our road to discover what happens next.' }
@@ -164,7 +164,7 @@ function applyGiftArt(element, gift) {
     element.style.backgroundPosition = 'center';
     return;
   }
-  element.style.backgroundImage = 'url("assets/gift-clues.png")';
+  element.style.backgroundImage = 'url("assets/gift-clues.png?v=20261009b")';
   element.style.backgroundSize = '500% 200%';
   element.style.backgroundPosition = spritePosition(gift.sprite);
 }
