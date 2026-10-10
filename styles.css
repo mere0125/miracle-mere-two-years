@@ -93,13 +93,7 @@ button:focus-visible { outline: 4px solid rgba(42,167,160,.35); outline-offset: 
 .board-center span { font-size: clamp(.58rem, .72vw, .76rem); letter-spacing: .15em; }
 .board-center strong { margin: 8px 0 2px; font-size: clamp(1.55rem, 3vw, 3.1rem); line-height: 1; color: var(--ink); }
 .board-center i { font-style: normal; font-size: clamp(.8rem, 1.2vw, 1.1rem); }
-.center-snowflake { width: clamp(68px, 6.2vw, 94px); height: clamp(68px, 6.2vw, 94px); margin-top: 5px; overflow: visible; transform: rotate(-1deg); filter: drop-shadow(0 2px 3px rgba(72,164,204,.16)); }
-.center-snowflake use { fill: none; stroke-linecap: round; stroke-linejoin: round; }
-.center-snowflake .ice-shadow use { stroke: #d9f5fd; stroke-width: 7; opacity: .84; }
-.center-snowflake .ice-arms use { stroke: url(#iceStroke); stroke-width: 3.6; }
-.center-snowflake .ice-star { fill: url(#iceGrain); stroke: #76cbe9; stroke-width: 2.5; stroke-linejoin: round; }
-.center-snowflake .ice-center { fill: rgba(250,254,255,.92); stroke: #79cde9; stroke-width: 2; stroke-linejoin: round; }
-.center-snowflake .ice-glints circle { fill: #fff; stroke: #87d5ed; stroke-width: .7; }
+.center-snowflake { display: block; width: clamp(78px, 7.2vw, 110px); height: auto; margin-top: 3px; object-fit: contain; mix-blend-mode: multiply; filter: saturate(.92) drop-shadow(0 2px 3px rgba(72,164,204,.12)); }
 .tile { position: relative; z-index: 1; min-width: 0; min-height: 0; margin: -1px 0 0 -1px; border: 1.6px solid var(--ink); border-radius: 0; display: grid; grid-template-rows: 1fr auto; place-items: center; padding: 4px 2px 3px; background-color: white; background-image: linear-gradient(165deg, rgba(255,255,255,.32), transparent 48%); box-shadow: inset 0 0 0 1px rgba(255,255,255,.22); transition: transform .18s ease, filter .18s ease; }
 .tile.start { border-radius: 0 0 13px 0; }
 .tile.finish { border-radius: 0 0 0 13px; }
@@ -125,7 +119,7 @@ button:focus-visible { outline: 4px solid rgba(42,167,160,.35); outline-offset: 
 .board-caption { position: relative; z-index: 1; display: flex; justify-content: space-between; align-items: center; gap: 10px; margin: 13px 3px 0; font: 800 .65rem ui-rounded, system-ui; }
 .board-caption span:last-child { text-align: right; }
 .board-caption b { font: 700 .68rem "Chalkboard SE", cursive; color: #8b665b; }
-.scribble { color: var(--coral); font: 700 .8rem "Chalkboard SE", cursive !important; transform: rotate(-2deg); }
+.scribble { color: #8bc8e8; font: 700 .8rem "Chalkboard SE", cursive !important; transform: rotate(-2deg); }
 
 .control-column { display: grid; gap: 16px; }
 .turn-card { text-align: center; padding-top: 28px; }
