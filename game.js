@@ -89,20 +89,20 @@ startSnowfall();
 const LAST_SPACE = 51;
 const giftSpaces = [3, 7, 11, 15, 19, 23, 27, 31, 35, 39, 43, 46, 49, 51];
 const gifts = [
-  { sprite: 1, title: 'A little something warm', copy: 'A pair of warm socks, just for you.' },
-  { sprite: 2, title: 'One drink date, on me', copy: 'Choose bubble tea, a smoothie, or whatever tastes like a good afternoon.' },
-  { asset: 'assets/gift-eyeliner-matcha.png?v=20261010a', title: 'A little something for you', copy: 'You wanted this once, but never got it.' },
-  { sprite: 3, title: 'An ice cream break', copy: 'One chocolate scoop, two spoons, and a sweet little break.' },
-  { asset: 'assets/gift-matcha.png?v=20261009b', title: 'Something green for your next drink', copy: 'For the days when you want something other than coffee.' },
-  { sprite: 4, title: 'To the moon and back', copy: 'A little moon scene with two explorers and one very important heart.' },
-  { sprite: 7, title: 'A tiny mystery friend', copy: 'Small, black, collectible, and slightly magical. I am definitely not telling you what it is yet.' },
-  { asset: 'assets/gift-pillow.png?v=20261009b', title: 'A softer place to sleep', copy: 'Something comfortable to help you rest a little better, especially when your nose bothers you.' },
-  { sprite: 5, title: 'A sealed date in East Williamsburg', copy: 'Back to Montrose Ave, back to the first winter we had together. Only available from November 1.' },
-  { sprite: 6, title: 'One hundred tiny proofs', copy: 'A book of ordinary seconds that made loving you feel extraordinary.' },
-  { asset: 'assets/gift-matching-jeans-v4.png?v=20261010a', title: 'Something black for both of us', copy: 'One black pair for you and one for me. The two word brand name stays secret for now.' },
-  { sprite: 0, title: 'Press play on a little secret', copy: 'A tiny player holding three minutes that belong only to us.' },
-  { sprite: 8, title: 'Words meant only for you', copy: 'No screen, no hints. Just a card you can keep.' },
-  { asset: 'assets/gift-box-pink-blue.png?v=20261010b', title: 'The big bow', copy: 'This clue is locked. Finish our road to discover what happens next.' }
+  { sprite: 1, artOffset: [-5.9, -8.4], title: 'A little something warm', copy: 'A pair of warm socks, just for you.' },
+  { sprite: 2, artOffset: [-4.8, -6.4], title: 'One drink date, on me', copy: 'Choose bubble tea, a smoothie, or whatever tastes like a good afternoon.' },
+  { asset: 'assets/gift-eyeliner-matcha.png?v=20261010a', artOffset: [-3.2, 1.9], title: 'A little something for you', copy: 'You wanted this once, but never got it.' },
+  { sprite: 3, artOffset: [0.5, -8], title: 'An ice cream break', copy: 'One chocolate scoop, two spoons, and a sweet little break.' },
+  { asset: 'assets/gift-matcha.png?v=20261009b', artOffset: [0, -0.1], title: 'Something green for your next drink', copy: 'For the days when you want something other than coffee.' },
+  { sprite: 4, artOffset: [6.3, -8.3], title: 'To the moon and back', copy: 'A little moon scene with two explorers and one very important heart.' },
+  { sprite: 7, artOffset: [0.2, 4.4], title: 'A tiny mystery friend', copy: 'Small, black, collectible, and slightly magical. I am definitely not telling you what it is yet.' },
+  { asset: 'assets/gift-pillow.png?v=20261009b', artOffset: [-0.3, 0.6], title: 'A softer place to sleep', copy: 'Something comfortable to help you rest a little better, especially when your nose bothers you.' },
+  { sprite: 5, artOffset: [-5.4, 3.3], title: 'A sealed date in East Williamsburg', copy: 'Back to Montrose Ave, back to the first winter we had together. Only available from November 1.' },
+  { sprite: 6, artOffset: [-5.7, 3.4], title: 'One hundred tiny proofs', copy: 'A book of ordinary seconds that made loving you feel extraordinary.' },
+  { asset: 'assets/gift-matching-jeans-v4.png?v=20261010a', artOffset: [-0.6, -0.5], title: 'Something black for both of us', copy: 'One black pair for you and one for me. The two word brand name stays secret for now.' },
+  { sprite: 0, artOffset: [-5.7, -7.3], title: 'Press play on a little secret', copy: 'A tiny player holding three minutes that belong only to us.' },
+  { sprite: 8, artOffset: [4.1, 5.7], title: 'Words meant only for you', copy: 'No screen, no hints. Just a card you can keep.' },
+  { asset: 'assets/gift-box-pink-blue.png?v=20261010b', artOffset: [1.4, 0.5], title: 'The big bow', copy: 'This clue is locked. Finish our road to discover what happens next.' }
 ];
 
 const special = {
@@ -240,6 +240,10 @@ function spritePosition(index) {
 }
 
 function applyGiftArt(element, gift) {
+  const [offsetX, offsetY] = gift.artOffset || [0, 0];
+  element.style.transform = element.classList.contains('gift-sprite')
+    ? `translate(${offsetX}%, ${offsetY}%)`
+    : '';
   if (gift.asset) {
     element.style.backgroundImage = `url("${gift.asset}")`;
     element.style.backgroundSize = 'cover';
