@@ -159,6 +159,7 @@ button:focus-visible { outline: 4px solid rgba(42,167,160,.35); outline-offset: 
 .choice-row button { border: 2px solid var(--ink); border-radius: 10px 8px 11px 7px; padding: 10px; background: #fff0c7; cursor: pointer; }
 .choice-row button:hover { background: #ffd968; }
 .gift-dialog .dialog-inner { display: flex; flex-direction: column; align-items: center; transform: none; }
+.gift-dialog { position: fixed; inset: 0; margin: auto; max-height: calc(100dvh - 24px); overflow-x: hidden; overflow-y: auto; }
 .gift-dialog .eyebrow,
 .gift-dialog h2,
 .gift-dialog #giftCopy { width: 100%; max-width: 570px; margin-left: auto; margin-right: auto; text-align: center; overflow-wrap: anywhere; }
