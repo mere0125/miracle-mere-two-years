@@ -138,6 +138,7 @@ const INTERLUDE_DECK = ['thisorthat','soundtrack','snapshot','objectmemory','tin
 let state = { position: 0, hearts: 0, shields: 0, found: new Set(), resolved: new Set(), pendingCards: [], finaleQueued: false, finalRevealed: false, busy: false, sound: false, musicTimer: null, guide: null, streak: 0, stamps: 0, turns: 0, interludeIndex: 0, turnHadDetour: false };
 let audioCtx;
 let crystalBus;
+const SFX_VOLUME_BOOST = 1.55;
 
 const iconDrawings = {
   start: '<path d="M12 2.8l2.7 5.6 6.1.8-4.4 4.3 1.1 6.1-5.5-2.9-5.5 2.9 1.1-6.1L3.2 9.2l6.1-.8z"/>',
@@ -261,7 +262,7 @@ function tone(freq, start, duration, type='sine', volume=.045) {
   const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
   osc.type = type; osc.frequency.value = freq;
   gain.gain.setValueAtTime(0, audioCtx.currentTime + start);
-  gain.gain.linearRampToValueAtTime(volume, audioCtx.currentTime + start + .02);
+  gain.gain.linearRampToValueAtTime(Math.min(volume * SFX_VOLUME_BOOST, .12), audioCtx.currentTime + start + .02);
   gain.gain.exponentialRampToValueAtTime(.001, audioCtx.currentTime + start + duration);
   osc.connect(gain).connect(audioCtx.destination); osc.start(audioCtx.currentTime + start); osc.stop(audioCtx.currentTime + start + duration + .05);
 }
