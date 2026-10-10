@@ -4,6 +4,7 @@ const diceEl = document.querySelector('#dice');
 const statusText = document.querySelector('#statusText');
 const turnHint = document.querySelector('#turnHint');
 const toastEl = document.querySelector('#toast');
+const backgroundMusic = document.querySelector('#backgroundMusic');
 
 function startSnowfall() {
   const canvas = document.querySelector('#snowfall');
@@ -17,14 +18,14 @@ function startSnowfall() {
   const makeFlake = (fromTop = false) => ({
     x: Math.random() * width,
     y: fromTop ? -12 - Math.random() * height * .22 : Math.random() * height,
-    radius: 1.8 + Math.random() * 3.2,
-    speed: .18 + Math.random() * .34,
+    radius: 2.4 + Math.random() * 3.6,
+    speed: .24 + Math.random() * .36,
     drift: (Math.random() - .5) * .22,
     sway: Math.random() * Math.PI * 2,
     swaySpeed: .006 + Math.random() * .012,
     rotation: Math.random() * Math.PI,
     spin: (Math.random() - .5) * .006,
-    alpha: .22 + Math.random() * .36
+    alpha: .38 + Math.random() * .34
   });
 
   const resize = () => {
@@ -36,7 +37,7 @@ function startSnowfall() {
     canvas.style.width = `${width}px`;
     canvas.style.height = `${height}px`;
     ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
-    const count = Math.max(28, Math.min(76, Math.round((width * height) / 21000)));
+    const count = Math.max(42, Math.min(96, Math.round((width * height) / 15000)));
     flakes = Array.from({ length: count }, () => makeFlake());
   };
 
@@ -47,8 +48,8 @@ function startSnowfall() {
     ctx.strokeStyle = `rgba(255,255,255,${flake.alpha})`;
     ctx.lineWidth = Math.max(.55, flake.radius * .18);
     ctx.lineCap = 'round';
-    ctx.shadowColor = 'rgba(255,255,255,.32)';
-    ctx.shadowBlur = flake.radius * 1.4;
+    ctx.shadowColor = 'rgba(255,255,255,.5)';
+    ctx.shadowBlur = flake.radius * 1.8;
     for (let arm = 0; arm < 6; arm++) {
       ctx.rotate(Math.PI / 3);
       ctx.beginPath();
@@ -715,10 +716,50 @@ function confetti() {
   for (let i = 0; i < 80; i++) { const bit = document.createElement('i'); bit.style.left = `${Math.random()*100}%`; bit.style.background = colors[i%colors.length]; bit.style.animationDelay = `${Math.random()*.8}s`; bit.style.transform = `rotate(${Math.random()*180}deg)`; box.appendChild(bit); setTimeout(() => bit.remove(), 3400); }
 }
 
-document.querySelector('#soundButton').addEventListener('click', () => {
-  state.sound = !state.sound; document.querySelector('#soundButton').setAttribute('aria-pressed', String(state.sound));
-  document.querySelector('#soundLabel').textContent = state.sound ? 'music on' : 'music off';
-  if (state.sound) { initAudio(); musicTick(); sparkleSound(); } else clearInterval(state.musicTimer);
+const musicButton = document.querySelector('#soundButton');
+const musicLabel = document.querySelector('#soundLabel');
+const musicGestureEvents = ['pointerdown', 'touchstart', 'keydown'];
+
+function updateMusicButton() {
+  musicButton.setAttribute('aria-pressed', String(state.sound));
+  musicLabel.textContent = state.sound ? 'music on' : 'music off';
+}
+
+function removeMusicFallback() {
+  musicGestureEvents.forEach(eventName => document.removeEventListener(eventName, handleFirstMusicGesture, true));
+}
+
+async function playBackgroundMusic() {
+  backgroundMusic.volume = .38;
+  try {
+    await backgroundMusic.play();
+    state.sound = true;
+    updateMusicButton();
+    removeMusicFallback();
+    return true;
+  } catch {
+    state.sound = false;
+    updateMusicButton();
+    return false;
+  }
+}
+
+function handleFirstMusicGesture(event) {
+  if (event.target instanceof Element && event.target.closest('#soundButton')) return;
+  playBackgroundMusic();
+}
+
+musicGestureEvents.forEach(eventName => document.addEventListener(eventName, handleFirstMusicGesture, { capture: true }));
+backgroundMusic.addEventListener('play', () => { state.sound = true; updateMusicButton(); });
+backgroundMusic.addEventListener('pause', () => { state.sound = false; updateMusicButton(); });
+setTimeout(playBackgroundMusic, 1000);
+
+musicButton.addEventListener('click', async () => {
+  if (backgroundMusic.paused) {
+    if (await playBackgroundMusic()) sparkleSound();
+  } else {
+    backgroundMusic.pause();
+  }
 });
 rollButton.addEventListener('click', handlePrimaryAction);
 window.addEventListener('keydown', e => { if (e.code === 'Space' && !document.querySelector('dialog[open]')) { e.preventDefault(); handlePrimaryAction(); } });
