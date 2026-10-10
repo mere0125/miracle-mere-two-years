@@ -91,7 +91,7 @@ const giftSpaces = [3, 7, 11, 15, 19, 23, 27, 31, 35, 39, 43, 46, 49, 51];
 const gifts = [
   { sprite: 1, title: 'A little something warm', copy: 'A pair of warm socks, just for you.' },
   { sprite: 2, title: 'One drink date, on me', copy: 'Choose bubble tea, a smoothie, or whatever tastes like a good afternoon.' },
-  { asset: 'assets/gift-eyeliner.png?v=20261009b', title: 'A little something for you', copy: 'You wanted this once, but never got it.' },
+  { asset: 'assets/gift-eyeliner-matcha.png?v=20261010a', title: 'A little something for you', copy: 'You wanted this once, but never got it.' },
   { sprite: 3, title: 'An ice cream break', copy: 'One chocolate scoop, two spoons, and a sweet little break.' },
   { asset: 'assets/gift-matcha.png?v=20261009b', title: 'Something green for your next drink', copy: 'For the days when you want something other than coffee.' },
   { sprite: 4, title: 'To the moon and back', copy: 'A little moon scene with two explorers and one very important heart.' },
