@@ -102,7 +102,7 @@ const gifts = [
   { asset: 'assets/gift-matching-jeans-v4.png?v=20261010a', title: 'Something black for both of us', copy: 'One black pair for you and one for me. The two word brand name stays secret for now.' },
   { sprite: 0, title: 'Press play on a little secret', copy: 'A tiny player holding three minutes that belong only to us.' },
   { sprite: 8, title: 'Words meant only for you', copy: 'No screen, no hints. Just a card you can keep.' },
-  { sprite: 9, title: 'The big bow', copy: 'This clue is locked. Finish our road to discover what happens next.' }
+  { asset: 'assets/gift-box-pink-blue.png?v=20261010b', title: 'The big bow', copy: 'This clue is locked. Finish our road to discover what happens next.' }
 ];
 
 const special = {
