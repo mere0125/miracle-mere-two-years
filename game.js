@@ -137,6 +137,8 @@ const INTERLUDE_DECK = ['thisorthat','soundtrack','snapshot','objectmemory','tin
 
 let state = { position: 0, hearts: 0, shields: 0, found: new Set(), resolved: new Set(), pendingCards: [], finaleQueued: false, finalRevealed: false, busy: false, sound: false, musicTimer: null, guide: null, streak: 0, stamps: 0, turns: 0, interludeIndex: 0, turnHadDetour: false };
 let audioCtx;
+let audioReadyPromise;
+let audioPrimed = false;
 let crystalBus;
 const SFX_VOLUME_BOOST = 1.85;
 
@@ -256,13 +258,33 @@ function applyGiftArt(element, gift) {
 }
 
 function initAudio() {
-  audioCtx ||= new (window.AudioContext || window.webkitAudioContext)();
-  if (audioCtx.state === 'suspended') audioCtx.resume();
+  const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+  if (!AudioContextClass) return Promise.resolve(false);
+  audioCtx ||= new AudioContextClass();
+  if (audioCtx.state === 'running') return Promise.resolve(true);
+  if (!audioReadyPromise) {
+    audioReadyPromise = Promise.resolve(audioCtx.resume())
+      .then(() => audioCtx.state === 'running')
+      .catch(() => false)
+      .finally(() => { audioReadyPromise = null; });
+  }
+  return audioReadyPromise;
 }
 
-function tone(freq, start, duration, type='sine', volume=.045) {
-  if (!state.sound) return;
-  initAudio();
+function primeAudioOnGesture() {
+  const ready = initAudio();
+  if (audioCtx && !audioPrimed) {
+    const buffer = audioCtx.createBuffer(1, 1, audioCtx.sampleRate);
+    const source = audioCtx.createBufferSource();
+    source.buffer = buffer;
+    source.connect(audioCtx.destination);
+    source.start(0);
+    audioPrimed = true;
+  }
+  return ready;
+}
+
+function scheduleTone(freq, start, duration, type='sine', volume=.045) {
   const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
   osc.type = type; osc.frequency.value = freq;
   gain.gain.setValueAtTime(0, audioCtx.currentTime + start);
@@ -271,9 +293,13 @@ function tone(freq, start, duration, type='sine', volume=.045) {
   osc.connect(gain).connect(audioCtx.destination); osc.start(audioCtx.currentTime + start); osc.stop(audioCtx.currentTime + start + duration + .05);
 }
 
+async function tone(freq, start, duration, type='sine', volume=.045) {
+  if (!state.sound || !await initAudio()) return;
+  scheduleTone(freq, start, duration, type, volume);
+}
+
 function getCrystalBus() {
   if (crystalBus) return crystalBus;
-  initAudio();
   const input = audioCtx.createGain();
   const filter = audioCtx.createBiquadFilter();
   const dry = audioCtx.createGain();
@@ -289,8 +315,6 @@ function getCrystalBus() {
 }
 
 function diceClack(start, frequency=1780, volume=.29) {
-  if (!state.sound) return;
-  initAudio();
   const when = audioCtx.currentTime + start;
   const length = Math.ceil(audioCtx.sampleRate * .04);
   const buffer = audioCtx.createBuffer(1, length, audioCtx.sampleRate);
@@ -325,17 +349,20 @@ function diceClack(start, frequency=1780, volume=.29) {
   });
 }
 
-function diceSound() {
+async function diceSound() {
+  if (!state.sound || !await initAudio()) return;
   const hits = [0, .04, .085, .135, .192, .258, .336, .428, .538, .672];
   const pitches = [1580, 2050, 1740, 2280, 1510, 2140, 1690, 2390, 1880, 2210];
   hits.forEach((start, i) => diceClack(start, pitches[i], i === hits.length - 1 ? .43 : i === hits.length - 2 ? .35 : .3));
 }
 function stepSound(i) { tone(320 + (i % 5) * 45, 0, .08, 'sine', .028); }
-function sparkleSound() { [523,659,784].forEach((f,i) => tone(f, i*.09, .35, 'sine', .05)); }
+async function sparkleSound() {
+  if (!state.sound || !await initAudio()) return;
+  [523,659,784].forEach((frequency, index) => scheduleTone(frequency, index * .09, .35, 'sine', .05));
+}
 
-function musicBoxNote(freq, start, duration=1.02, volume=.0105) {
-  if (!state.sound || !freq) return;
-  initAudio();
+async function musicBoxNote(freq, start, duration=1.02, volume=.0105) {
+  if (!state.sound || !freq || !await initAudio()) return;
   const when = audioCtx.currentTime + start;
   const bus = getCrystalBus();
   [[1, volume], [2, volume * .038], [.5, volume * .12]].forEach(([ratio, level], index) => {
@@ -423,7 +450,7 @@ function firstUncollectedGiftOnPath(start, target) {
 
 async function roll() {
   if (state.busy || state.pendingCards.length) return;
-  state.busy = true; updateRollButton(); diceEl.classList.add('rolling'); diceSound();
+  state.busy = true; updateRollButton(); diceEl.classList.add('rolling'); await diceSound();
   let value = 1;
   for (let i = 0; i < 8; i++) { value = Math.floor(Math.random() * 6) + 1; setDice(value); await sleep(55); }
   diceEl.classList.remove('rolling');
@@ -778,6 +805,7 @@ function confetti() {
 const musicButton = document.querySelector('#soundButton');
 const musicLabel = document.querySelector('#soundLabel');
 const musicGestureEvents = ['pointerdown', 'touchstart', 'keydown'];
+const audioGestureEvents = ['pointerdown', 'touchstart', 'keydown'];
 
 function updateMusicButton() {
   musicButton.setAttribute('aria-pressed', String(state.sound));
@@ -811,9 +839,16 @@ function handleFirstMusicGesture(event) {
   playBackgroundMusic();
 }
 
+audioGestureEvents.forEach(eventName => document.addEventListener(eventName, primeAudioOnGesture, { capture: true }));
 musicGestureEvents.forEach(eventName => document.addEventListener(eventName, handleFirstMusicGesture, { capture: true }));
 backgroundMusic.addEventListener('play', () => { state.sound = true; updateMusicButton(); });
 backgroundMusic.addEventListener('pause', () => { state.sound = false; updateMusicButton(); });
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden && state.sound) initAudio();
+});
+window.addEventListener('pageshow', () => {
+  if (state.sound) initAudio();
+});
 setTimeout(playBackgroundMusic, 1000);
 
 musicButton.addEventListener('click', async () => {
