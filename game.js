@@ -5,6 +5,86 @@ const statusText = document.querySelector('#statusText');
 const turnHint = document.querySelector('#turnHint');
 const toastEl = document.querySelector('#toast');
 
+function startSnowfall() {
+  const canvas = document.querySelector('#snowfall');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let width = 0;
+  let height = 0;
+  let flakes = [];
+
+  const makeFlake = (fromTop = false) => ({
+    x: Math.random() * width,
+    y: fromTop ? -12 - Math.random() * height * .22 : Math.random() * height,
+    radius: 1.8 + Math.random() * 3.2,
+    speed: .18 + Math.random() * .34,
+    drift: (Math.random() - .5) * .22,
+    sway: Math.random() * Math.PI * 2,
+    swaySpeed: .006 + Math.random() * .012,
+    rotation: Math.random() * Math.PI,
+    spin: (Math.random() - .5) * .006,
+    alpha: .22 + Math.random() * .36
+  });
+
+  const resize = () => {
+    const ratio = Math.min(window.devicePixelRatio || 1, 2);
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = Math.round(width * ratio);
+    canvas.height = Math.round(height * ratio);
+    canvas.style.width = `${width}px`;
+    canvas.style.height = `${height}px`;
+    ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+    const count = Math.max(28, Math.min(76, Math.round((width * height) / 21000)));
+    flakes = Array.from({ length: count }, () => makeFlake());
+  };
+
+  const drawFlake = flake => {
+    ctx.save();
+    ctx.translate(flake.x, flake.y);
+    ctx.rotate(flake.rotation);
+    ctx.strokeStyle = `rgba(255,255,255,${flake.alpha})`;
+    ctx.lineWidth = Math.max(.55, flake.radius * .18);
+    ctx.lineCap = 'round';
+    ctx.shadowColor = 'rgba(255,255,255,.32)';
+    ctx.shadowBlur = flake.radius * 1.4;
+    for (let arm = 0; arm < 6; arm++) {
+      ctx.rotate(Math.PI / 3);
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.lineTo(0, -flake.radius * 2.2);
+      ctx.moveTo(0, -flake.radius * 1.25);
+      ctx.lineTo(-flake.radius * .48, -flake.radius * 1.72);
+      ctx.moveTo(0, -flake.radius * 1.25);
+      ctx.lineTo(flake.radius * .48, -flake.radius * 1.72);
+      ctx.stroke();
+    }
+    ctx.restore();
+  };
+
+  const frame = () => {
+    ctx.clearRect(0, 0, width, height);
+    flakes.forEach(flake => {
+      if (!reduceMotion) {
+        flake.sway += flake.swaySpeed;
+        flake.x += flake.drift + Math.sin(flake.sway) * .08;
+        flake.y += flake.speed;
+        flake.rotation += flake.spin;
+        if (flake.y > height + 16 || flake.x < -20 || flake.x > width + 20) Object.assign(flake, makeFlake(true));
+      }
+      drawFlake(flake);
+    });
+    if (!reduceMotion) requestAnimationFrame(frame);
+  };
+
+  resize();
+  window.addEventListener('resize', resize, { passive: true });
+  frame();
+}
+
+startSnowfall();
+
 const LAST_SPACE = 51;
 const giftSpaces = [3, 7, 11, 15, 19, 23, 27, 31, 35, 39, 43, 46, 49, 51];
 const gifts = [
