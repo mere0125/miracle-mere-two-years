@@ -413,6 +413,14 @@ async function handlePrimaryAction() {
   statusText.textContent = state.pendingCards.length ? 'One more card is waiting. Open it when you are ready.' : 'The path is ready whenever you are.';
 }
 
+function firstUncollectedGiftOnPath(start, target) {
+  if (target <= start) return null;
+  const giftIndex = giftSpaces.findIndex((space, index) => (
+    space > start && space <= target && !state.found.has(index)
+  ));
+  return giftIndex === -1 ? null : giftSpaces[giftIndex];
+}
+
 async function roll() {
   if (state.busy || state.pendingCards.length) return;
   state.busy = true; updateRollButton(); diceEl.classList.add('rolling'); diceSound();
@@ -431,6 +439,8 @@ async function roll() {
     target = LAST_SPACE - 4;
     showToast('The final bow waits until every little card is finished.');
   }
+  const giftCheckpoint = firstUncollectedGiftOnPath(start, target);
+  if (giftCheckpoint !== null) target = giftCheckpoint;
   const direction = target >= start ? 1 : -1;
   for (let p = start + direction; direction > 0 ? p <= target : p >= target; p += direction) {
     state.position = p; renderPawn(); stepSound(p); await sleep(230);
@@ -529,7 +539,10 @@ async function resolveSpace(pos) {
 }
 
 async function moveExtra(delta) {
-  const target = Math.max(0, Math.min(LAST_SPACE, state.position + delta));
+  const start = state.position;
+  let target = Math.max(0, Math.min(LAST_SPACE, start + delta));
+  const giftCheckpoint = firstUncollectedGiftOnPath(start, target);
+  if (giftCheckpoint !== null) target = giftCheckpoint;
   const dir = Math.sign(delta);
   for (let p = state.position + dir; dir > 0 ? p <= target : p >= target; p += dir) {
     state.position = p; renderPawn(); stepSound(p); await sleep(180);
