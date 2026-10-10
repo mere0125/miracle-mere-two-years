@@ -34,7 +34,7 @@ button { font: inherit; color: inherit; }
 button:focus-visible { outline: 4px solid rgba(42,167,160,.35); outline-offset: 3px; }
 
 .game-shell { min-height: 100vh; min-height: 100svh; padding: 18px clamp(12px, 1.5vw, 26px) 28px; display: flex; flex-direction: column; justify-content: center; }
-.topbar { max-width: 1720px; margin: 0 auto 15px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.topbar { width: 100%; max-width: 1720px; margin: 0 auto 15px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
 .brand { display: grid; grid-template-columns: auto auto; column-gap: 16px; align-items: end; }
 .brand h1 { grid-column: 1 / -1; margin: -2px 0 -1px; font-size: clamp(2rem, 3vw, 3.25rem); line-height: .96; letter-spacing: -.06em; transform: rotate(-1deg); }
 .brand h1 i { color: #8bc8e8; font-style: normal; }
@@ -46,7 +46,7 @@ button:focus-visible { outline: 4px solid rgba(42,167,160,.35); outline-offset: 
 .sound-button { border-radius: 14px 10px 13px 9px; padding: 0 15px; display: flex; gap: 8px; align-items: center; font-family: ui-rounded, system-ui, sans-serif; font-weight: 800; font-size: .78rem; }
 .sound-icon { font-size: 1.25rem; color: var(--coral); }
 
-.play-layout { max-width: 1720px; margin: 0 auto; display: grid; grid-template-columns: minmax(210px, .62fr) minmax(760px, 2.5fr) minmax(210px, .62fr); gap: clamp(12px, 1.35vw, 22px); align-items: start; }
+.play-layout { width: 100%; max-width: 1720px; margin: 0 auto; display: grid; grid-template-columns: minmax(210px, .62fr) minmax(760px, 2.5fr) minmax(210px, .62fr); gap: clamp(12px, 1.35vw, 22px); align-items: start; }
 .storybook-card, .board-wrap { background: var(--paper); border: 2.5px solid var(--ink); box-shadow: 7px 8px 0 rgba(48,43,43,.16); }
 .storybook-card { border-radius: 17px 12px 18px 13px; padding: 22px; position: relative; }
 .status-card { transform: rotate(-.25deg); }

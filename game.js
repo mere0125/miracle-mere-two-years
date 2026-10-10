@@ -284,14 +284,14 @@ function getCrystalBus() {
   return crystalBus;
 }
 
-function diceClack(start, frequency=1900, volume=.24) {
+function diceClack(start, frequency=1120, volume=.28) {
   if (!state.sound) return;
   initAudio();
   const when = audioCtx.currentTime + start;
-  const length = Math.ceil(audioCtx.sampleRate * .032);
+  const length = Math.ceil(audioCtx.sampleRate * .052);
   const buffer = audioCtx.createBuffer(1, length, audioCtx.sampleRate);
   const samples = buffer.getChannelData(0);
-  for (let i = 0; i < length; i++) samples[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, 1.8);
+  for (let i = 0; i < length; i++) samples[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, 2.3);
 
   const source = audioCtx.createBufferSource();
   const filter = audioCtx.createBiquadFilter();
@@ -299,14 +299,14 @@ function diceClack(start, frequency=1900, volume=.24) {
   source.buffer = buffer;
   filter.type = 'bandpass';
   filter.frequency.value = frequency;
-  filter.Q.value = 1.65;
+  filter.Q.value = .78;
   gain.gain.setValueAtTime(volume, when);
-  gain.gain.exponentialRampToValueAtTime(.001, when + .032);
+  gain.gain.exponentialRampToValueAtTime(.001, when + .052);
   source.connect(filter).connect(gain).connect(audioCtx.destination);
   source.start(when);
-  source.stop(when + .034);
+  source.stop(when + .055);
 
-  [[.56, 'triangle', volume * .34, .055], [1.42, 'sine', volume * .18, .026]].forEach(([ratio, type, level, duration]) => {
+  [[.44, 'triangle', volume * .42, .046], [2.35, 'square', volume * .075, .016]].forEach(([ratio, type, level, duration]) => {
     const oscillator = audioCtx.createOscillator();
     const ring = audioCtx.createGain();
     oscillator.type = type;
@@ -322,8 +322,9 @@ function diceClack(start, frequency=1900, volume=.24) {
 }
 
 function diceSound() {
-  const hits = [0, .042, .091, .148, .216, .294, .383, .486];
-  hits.forEach((start, i) => diceClack(start, 1650 + (i % 4) * 390, i === hits.length - 1 ? .36 : .25));
+  const hits = [0, .034, .072, .114, .162, .218, .283, .361, .456, .574];
+  const pitches = [980, 1260, 1080, 1420, 920, 1320, 1040, 1510, 1160, 1380];
+  hits.forEach((start, i) => diceClack(start, pitches[i], i === hits.length - 1 ? .42 : i === hits.length - 2 ? .34 : .29));
 }
 function stepSound(i) { tone(320 + (i % 5) * 45, 0, .08, 'sine', .028); }
 function sparkleSound() { [523,659,784].forEach((f,i) => tone(f, i*.09, .35, 'sine', .05)); }
