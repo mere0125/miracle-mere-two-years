@@ -33,7 +33,7 @@ body {
 button { font: inherit; color: inherit; }
 button:focus-visible { outline: 4px solid rgba(42,167,160,.35); outline-offset: 3px; }
 
-.game-shell { min-height: 100vh; padding: 18px clamp(12px, 1.5vw, 26px) 28px; }
+.game-shell { min-height: 100vh; min-height: 100svh; padding: 18px clamp(12px, 1.5vw, 26px) 28px; display: flex; flex-direction: column; justify-content: center; }
 .topbar { max-width: 1720px; margin: 0 auto 15px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
 .brand { display: grid; grid-template-columns: auto auto; column-gap: 16px; align-items: end; }
 .brand h1 { grid-column: 1 / -1; margin: -2px 0 -1px; font-size: clamp(2rem, 3vw, 3.25rem); line-height: .96; letter-spacing: -.06em; transform: rotate(-1deg); }
@@ -205,7 +205,7 @@ button:focus-visible { outline: 4px solid rgba(42,167,160,.35); outline-offset: 
 }
 
 @media (max-width: 800px) {
-  .game-shell { padding: 12px 10px 24px; }
+  .game-shell { padding: 12px 10px 24px; justify-content: flex-start; }
   .brand-note { display: none; }
   .sound-button #soundLabel { display: none; }
   .sound-button { width: 42px; justify-content: center; padding: 0; }
@@ -225,6 +225,10 @@ button:focus-visible { outline: 4px solid rgba(42,167,160,.35); outline-offset: 
   .turn-card { grid-template-columns: 1fr 100px; text-align: left; }
   .turn-card .dice { grid-column: 2; }
   .turn-card .roll-button { grid-column: 1; grid-row: 3 / 5; }
+}
+
+@media (max-height: 760px) {
+  .game-shell { justify-content: flex-start; }
 }
 
 @media (prefers-reduced-motion: reduce) {
