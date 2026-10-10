@@ -99,7 +99,7 @@ const gifts = [
   { asset: 'assets/gift-pillow.png?v=20261009b', title: 'A softer place to sleep', copy: 'Something comfortable to help you rest a little better, especially when your nose bothers you.' },
   { sprite: 5, title: 'A sealed date in East Williamsburg', copy: 'Back to Montrose Ave, back to the first winter we had together. Only available from November 1.' },
   { sprite: 6, title: 'One hundred tiny proofs', copy: 'A book of ordinary seconds that made loving you feel extraordinary.' },
-  { asset: 'assets/gift-matching-jeans.png?v=20261009b', title: 'Something black for both of us', copy: 'One black pair for you and one for me. The two word brand name stays secret for now.' },
+  { asset: 'assets/gift-matching-jeans-v3.png?v=20261010a', title: 'Something black for both of us', copy: 'One black pair for you and one for me. The two word brand name stays secret for now.' },
   { sprite: 0, title: 'Press play on a little secret', copy: 'A tiny player holding three minutes that belong only to us.' },
   { sprite: 8, title: 'Words meant only for you', copy: 'No screen, no hints. Just a card you can keep.' },
   { sprite: 9, title: 'The big bow', copy: 'This clue is locked. Finish our road to discover what happens next.' }
@@ -701,7 +701,7 @@ function showChoice(kind) {
       { label: 'A food memory', hearts: 4 },
       { label: 'A travel memory', hearts: 4 },
       { label: 'A quiet home memory', hearts: 5 },
-      { label: 'One of our “fights”', hearts: 5 }
+      { label: 'A “fight” memory', hearts: 5 }
     ]},
     secretcode: { title: 'Make a secret code', copy: 'Choose a normal word that will secretly mean I love you for the rest of tonight.', icon: '✦', options: [
       { label: 'We picked one', hearts: 5 },
