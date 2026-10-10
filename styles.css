@@ -87,7 +87,7 @@ button:focus-visible { outline: 4px solid rgba(42,167,160,.35); outline-offset: 
 .dot { width: 10px; height: 10px; border-radius: 50%; border: 1.5px solid var(--ink); display: inline-block; }
 .gift-dot { background: var(--coral); }.magic-dot { background: var(--yellow); }.cloud-dot { background: var(--blue); }
 .board { position: relative; z-index: 1; width: 100%; aspect-ratio: 1.55; min-height: 470px; display: grid; grid-template-columns: repeat(14, 1fr); grid-template-rows: repeat(11, 1fr); padding: 3px; border: 2px solid var(--ink); background: #fffdf5; box-shadow: 4px 5px 0 rgba(48,43,43,.12); }
-.board-center { position: absolute; left: 13%; right: 14%; top: 18%; height: 48%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; background: #eef6df; border: 2px solid #c79878; box-shadow: inset 0 0 0 6px #fffdf5; color: #6e4b45; }
+.board-center { position: absolute; left: 13%; right: 14%; top: 18%; height: 48%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; background: #edf2fb; border: 2px solid #c79878; box-shadow: inset 0 0 0 6px #fffdf5; color: #6e4b45; }
 .board-center::before, .board-center::after { content: ""; position: absolute; width: 38px; height: 11px; background: rgba(119,197,233,.48); top: -6px; transform: rotate(-4deg); }
 .board-center::after { top: auto; bottom: -5px; right: 12%; transform: rotate(4deg); background: rgba(255,181,189,.48); }
 .board-center span { font-size: clamp(.58rem, .72vw, .76rem); letter-spacing: .15em; }

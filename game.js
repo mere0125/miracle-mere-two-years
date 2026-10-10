@@ -138,7 +138,7 @@ const INTERLUDE_DECK = ['thisorthat','soundtrack','snapshot','objectmemory','tin
 let state = { position: 0, hearts: 0, shields: 0, found: new Set(), resolved: new Set(), pendingCards: [], finaleQueued: false, finalRevealed: false, busy: false, sound: false, musicTimer: null, guide: null, streak: 0, stamps: 0, turns: 0, interludeIndex: 0, turnHadDetour: false };
 let audioCtx;
 let crystalBus;
-const SFX_VOLUME_BOOST = 1.55;
+const SFX_VOLUME_BOOST = 1.85;
 
 const iconDrawings = {
   start: '<path d="M12 2.8l2.7 5.6 6.1.8-4.4 4.3 1.1 6.1-5.5-2.9-5.5 2.9 1.1-6.1L3.2 9.2l6.1-.8z"/>',
