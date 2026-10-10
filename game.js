@@ -284,7 +284,34 @@ function getCrystalBus() {
   return crystalBus;
 }
 
-function diceSound() { [210,170,250,190,290].forEach((f,i) => tone(f, i*.055, .09, 'triangle', .06)); tone(640,.34,.18,'sine',.055); }
+function diceClack(start, frequency=1800, volume=.18) {
+  if (!state.sound) return;
+  initAudio();
+  const when = audioCtx.currentTime + start;
+  const length = Math.ceil(audioCtx.sampleRate * .038);
+  const buffer = audioCtx.createBuffer(1, length, audioCtx.sampleRate);
+  const samples = buffer.getChannelData(0);
+  for (let i = 0; i < length; i++) samples[i] = (Math.random() * 2 - 1) * (1 - i / length);
+
+  const source = audioCtx.createBufferSource();
+  const filter = audioCtx.createBiquadFilter();
+  const gain = audioCtx.createGain();
+  source.buffer = buffer;
+  filter.type = 'bandpass';
+  filter.frequency.value = frequency;
+  filter.Q.value = 1.15;
+  gain.gain.setValueAtTime(volume, when);
+  gain.gain.exponentialRampToValueAtTime(.001, when + .038);
+  source.connect(filter).connect(gain).connect(audioCtx.destination);
+  source.start(when);
+  source.stop(when + .04);
+}
+
+function diceSound() {
+  const hits = [0, .048, .102, .164, .234, .315, .405];
+  hits.forEach((start, i) => diceClack(start, 1450 + (i % 3) * 430, i === hits.length - 1 ? .24 : .18));
+  tone(920, .405, .14, 'sine', .072);
+}
 function stepSound(i) { tone(320 + (i % 5) * 45, 0, .08, 'sine', .028); }
 function sparkleSound() { [523,659,784].forEach((f,i) => tone(f, i*.09, .35, 'sine', .05)); }
 
