@@ -731,7 +731,7 @@ function removeMusicFallback() {
 
 async function playBackgroundMusic() {
   backgroundMusic.volume = .38;
-  backgroundMusic.playbackRate = .85;
+  backgroundMusic.playbackRate = .9;
   backgroundMusic.preservesPitch = true;
   backgroundMusic.webkitPreservesPitch = true;
   try {
