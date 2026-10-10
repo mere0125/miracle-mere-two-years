@@ -12,6 +12,8 @@
   --dialog-blue-soft: #cfe9f7;
   --dialog-blue: #acd9ef;
   --dialog-blue-strong: #8bc8e8;
+  --dialog-pink: #f2a3ad;
+  --dialog-pink-hover: #ea8f9d;
   --green: #96ce78;
   --shadow: rgba(83, 56, 49, .17);
 }
@@ -159,6 +161,8 @@ button:focus-visible { outline: 4px solid rgba(42,167,160,.35); outline-offset: 
 .dialog-sticker { width: 62px; height: 62px; display: grid; place-items: center; margin: -65px auto 12px; border: 3px solid var(--ink); background: var(--dialog-blue); border-radius: 50% 45% 48% 53%; font-size: 1.9rem; transform: rotate(5deg); }
 .dialog-inner > p { line-height: 1.5; }
 .dialog-primary { min-width: 180px; padding: 11px 18px; font-weight: 900; margin-top: 10px; }
+.paper-dialog .dialog-primary { background: var(--dialog-pink); color: var(--ink); }
+.paper-dialog .dialog-primary:hover { background: var(--dialog-pink-hover); }
 .choice-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 9px; margin: 15px 0 8px; }
 .choice-row button { border: 2px solid var(--ink); border-radius: 10px 8px 11px 7px; padding: 10px; background: var(--dialog-blue-pale); cursor: pointer; }
 .choice-row button:hover { background: var(--dialog-blue-soft); }
